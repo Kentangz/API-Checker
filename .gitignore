@@ -13,3 +13,5 @@ coverage/
 pnpm-debug.log*
 
 checker.py
+
+.vercel
