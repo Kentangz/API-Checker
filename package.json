@@ -1,0 +1,25 @@
+{
+  "name": "api-key-checker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local-first API key checker with a Vercel-hosted web UI and loopback companion agent.",
+  "type": "module",
+  "packageManager": "pnpm@11.5.2",
+  "scripts": {
+    "build": "corepack pnpm -r --sort build",
+    "dev": "corepack pnpm --filter @api-key-checker/core build && corepack pnpm --filter @api-key-checker/web dev",
+    "typecheck": "corepack pnpm -r --sort typecheck",
+    "lint": "eslint . --max-warnings=0",
+    "test": "vitest run",
+    "ci": "corepack pnpm lint && corepack pnpm typecheck && corepack pnpm test && corepack pnpm build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.9.2",
+    "eslint": "^10.4.1",
+    "globals": "^17.6.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.60.1",
+    "vitest": "^4.1.8"
+  }
+}

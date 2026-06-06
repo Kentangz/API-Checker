@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+
+node_modules/
+dist/
+.next/
+coverage/
+.turbo/
+.vercel/
+
+*.log
+pnpm-debug.log*
+
+checker.py
