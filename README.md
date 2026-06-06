@@ -37,9 +37,9 @@ Push to GitHub and import the repository at [vercel.com/new](https://vercel.com/
 
 ### Environment Variables
 
-| Variable | Default | Description |
-|---|---|---|
-| `RATE_LIMIT_RPM` | `20` | Max check requests per IP per minute |
+| Variable         | Default | Description                            |
+| ---------------- | ------- | -------------------------------------- |
+| `RATE_LIMIT_RPM` | `20`    | Max check requests per IP per minute   |
 
 ## Verification
 
