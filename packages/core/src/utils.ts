@@ -1,7 +1,7 @@
 import type { ProviderError, ProviderId } from "./types.js";
 import { getProvider, isProviderId } from "./providers.js";
 
-export const TEST_PROMPT = "Jawab hanya dengan 1 kalimat singkat saja: Apa itu kecerdasan buatan?";
+export const TEST_PROMPT = "Answer with just 1 short sentence: What is a cat?";
 
 export const TRIAL_SK: ProviderId[] = ["openai", "deepseek", "moonshot", "dashscope"];
 
@@ -27,7 +27,7 @@ export const maskKey = (key: string): string => {
   if (n <= 16) {
     return `${trimmed.slice(0, 4)}${"*".repeat(Math.max(n - 8, 0))}${trimmed.slice(-4)}`;
   }
-  return `${trimmed.slice(0, 12)}...${trimmed.slice(-4)}`;
+  return `${trimmed.slice(0, 11)}...${trimmed.slice(-4)}`;
 };
 
 export const detectProviderByPrefix = (key: string): ProviderId | undefined => {
