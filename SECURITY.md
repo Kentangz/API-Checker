@@ -23,7 +23,9 @@ The server returns only the check result (masked key, provider info, model list)
 
 ## Rate Limiting
 
-The `/api/check` endpoint applies per-IP rate limiting (default: 20 requests per minute) to prevent abuse.
+The `/api/check` endpoint applies per-IP rate limiting (default: 20 requests per minute) using Arcjet to prevent abuse and block automated spam.
+
+To protect your privacy, the rate limiter is executed before the request body is parsed. This ensures that the submitted API keys are never inspected, processed, or transmitted to Arcjet—only connection metadata (such as your IP address) is analyzed to enforce the rate limit.
 
 ## Repository Settings
 

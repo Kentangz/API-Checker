@@ -2,42 +2,35 @@ import { checkKey, isProviderId } from "@api-key-checker/core";
 import type { CheckRequest } from "@api-key-checker/core";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import arcjet, { slidingWindow } from "@arcjet/next";
 
-const RATE_LIMIT_RPM = Number(process.env.RATE_LIMIT_RPM ?? 20);
+const ARCJET_KEY = process.env.ARCJET_KEY;
+const RATE_LIMIT_RPM = Number(process.env.RATE_LIMIT_RPM || 20);
 
-interface RateLimitEntry {
-  count: number;
-  resetAt: number;
-}
-
-const rateLimitMap = new Map<string, RateLimitEntry>();
-
-const getClientIp = (request: NextRequest): string =>
-  request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-  request.headers.get("x-real-ip") ??
-  "unknown";
-
-const checkRateLimit = (ip: string): boolean => {
-  const now = Date.now();
-  const entry = rateLimitMap.get(ip);
-  if (!entry || now >= entry.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + 60_000 });
-    return true;
-  }
-  if (entry.count >= RATE_LIMIT_RPM) {
-    return false;
-  }
-  entry.count++;
-  return true;
-};
+const aj = ARCJET_KEY
+  ? arcjet({
+      key: ARCJET_KEY,
+      rules: [
+        slidingWindow({
+          mode: "LIVE",
+          interval: "60s",
+          max: RATE_LIMIT_RPM,
+        }),
+      ],
+    })
+  : null;
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const ip = getClientIp(request);
-  if (!checkRateLimit(ip)) {
-    return NextResponse.json(
-      { error: "rate_limit_exceeded", message: "Too many requests. Try again in a minute." },
-      { status: 429 }
-    );
+  if (aj) {
+    const decision = await aj.protect(request);
+    if (decision.isDenied()) {
+      return NextResponse.json(
+        { error: "rate_limit_exceeded", message: "Too many requests. Try again in a minute." },
+        { status: 429 }
+      );
+    }
+  } else {
+    console.warn("Arcjet rate limiting is disabled because ARCJET_KEY is not set.");
   }
 
   let body: unknown;
