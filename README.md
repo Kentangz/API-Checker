@@ -31,9 +31,6 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Vercel Deployment
-
-Push to GitHub and import the repository at [vercel.com/new](https://vercel.com/new). The `vercel.json` configuration handles the build automatically.
 
 ### Environment Variables
 
