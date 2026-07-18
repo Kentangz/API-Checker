@@ -21,7 +21,7 @@
     "next": "^16.2.10",
     "react": "^19.2.7",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.63.0",
+    "typescript-eslint": "^8.64.0",
     "vitest": "^4.1.10"
   }
 }
